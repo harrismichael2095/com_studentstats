@@ -23,6 +23,15 @@ class DisplayController extends BaseController {
     
     public function display($cachable = false, $urlparams = array()) {        
         $document = Factory::getDocument();
+        $document->setTitle('Student Statistics');
+        $app = Factory::getApplication();
+        $menu = $app->getMenu();
+        $items = $menu->getMenu();
+        foreach ($items as $item) {
+            if($item->title == 'Student Statistics') {
+                $menu->setActive($item->id);
+            }
+        }
         $viewName = $this->input->getCmd('view', 'login');
         $viewFormat = $document->getType();
         $view = $this->getView($viewName, $viewFormat);

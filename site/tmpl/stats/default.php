@@ -13,62 +13,31 @@ defined('_JEXEC') or die('Restricted Access');
 
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
-
-
+use Joomla\CMS\Log\Log;
 
 // get the userid that was selected
 $uri = Uri::getInstance();
 $id = $uri->getVar('id');
-debug_to_console($id);
+Log::add($id);
 
-
-// find errors
-function debug_to_console($data) {
-    $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
-    echo "<script>console.log('".$output."');</script>";
-}
-
-
-
-// find the number of attendance records for stats
+// query to see which dates the student was present for
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
 $query->select('*');
 $query->from('#__attendance_reports');
-$db->setQuery((string) $query);
-$num_rows = $db->loadAssocList();
-$j = 0;
-$rows = '';
-foreach ($num_rows as $row) {
-    $j++;
-}
-
-
-
-// query to see which dates the student was present for
-$query = $db->getQuery(true);
-$query->select('id,present,absent,date_created');
-$query->from('#__attendance_reports');
 $query->where('JSON_CONTAINS(present,' . $db->quote($id) .')');
 $db->setQuery((string) $query);
-
-
 $results = $db->loadAssocList();
-$i = 0;
-$rows = '';
+$num_rows = count($results);
+$num_present = count($results);
+$present_rows = '';
 foreach ($results as $row) {
-
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
-    $rows .= '<tr>';
-    $rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
-    $rows .= '<td>' . $row['date_created'] . '</td>';
-    $rows .= '</tr>';
-    $i++;
+    $present_rows .= '<tr>';
+    $present_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
+    $present_rows .= '<td>' . $row['date_created'] . '</td>';
+    $present_rows .= '</tr>';
 }
-
-
 
 // query to see which dates the student was absent for
 $query = $db->getQuery(true);
@@ -76,61 +45,50 @@ $query->select('*');
 $query->from('#__attendance_reports');
 $query->where('JSON_CONTAINS(absent,' . $db->quote($id) .')');
 $db->setQuery((string) $query);
-$num_rows = $db->loadAssocList();
-$k = 0;
-$absent = '';
-foreach ($num_rows as $row) {
+$results = $db->loadAssocList();
+$num_rows += count($results);
+$num_absent = count($results);
+$absent_rows = '';
+foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
-    $absent .= '<tr>';
-    $absent .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
-    $absent .= '<td>' . $row['date_created'] . '</td>';
-    $absent .= '</tr>';
-    $k++;
+    $absent_rows .= '<tr>';
+    $absent_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
+    $absent_rows .= '<td>' . $row['date_created'] . '</td>';
+    $absent_rows .= '</tr>';
 }
-
-
-
-
 
 // Stats Section 
 // More Stats forumals will go here as we see what Oroji wants.
 
-
 // Present percentage
-$attendance = $i/$j*100;
+$present_percent = number_format($num_present/$num_rows*100, 2, '.', "");
 
 // Absent percentage 
-$attendance2 = $k/$j*100;
-
-
+$absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
 ?>
 
 <h2>View Stats</h2>
-
+<p>
+    <?php echo 'Student Attended ' .$num_present. ' of the ' .$num_rows. ' Meetings'; ?> 
+</p>
+<p>
+    <?php echo 'Present Percentage: ' .$present_percent. '%';?>
+</p>
+<p>
+    <?php echo 'Student Missed ' .$num_absent. ' of the ' .$num_rows. ' Meetings'; ?> 
+</p>
+<p>
+    <?php echo 'Absent Percentage: ' .$absent_percent. '%';?>
+</p>
 <table class="table">
-    
     <tr>
         <th>Present Records</th>
         <th>Date</th>
     </tr>
-
-    <?php   echo 'Student Attended ' .$i. ' of the ' .$j. ' Meetings';
-            echo "<br>";
-            echo 'Present Percentage : ' .$attendance. '%';
-            echo $rows; 
-    ?>
-
+    <?php echo $present_rows; ?>
     <tr>
         <th>Absent Records</th>
         <th>Date</th>
     </tr>
-
-    <?php   echo "<br>";
-            echo "<br>";
-            echo 'Student Missed  ' .$k. ' of the ' .$j. ' Meetings';
-            echo "<br>";
-            echo 'Absent Percentage : ' .$attendance2. '%'; echo $absent; echo "<br><br>"; 
-    ?>
-     
-
+    <?php echo $absent_rows; ?>
 </table>
