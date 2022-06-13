@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 $uri = Uri::getInstance();
 $id = $uri->getVar('id');
 Log::add($id);
+$user = JFactory::getUser($id); 
 
 // query to see which dates the student was present for
 $db = JFactory::getDbo();
@@ -67,7 +68,7 @@ $present_percent = number_format($num_present/$num_rows*100, 2, '.', "");
 $absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
 ?>
 
-<h2>View Stats</h2>
+<h2> <?php echo $user->name. ' Statistics' ?>   </h2>
 <p>
     <?php echo 'Student Attended ' .$num_present. ' of the ' .$num_rows. ' Meetings'; ?> 
 </p>
