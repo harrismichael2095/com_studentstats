@@ -50,7 +50,7 @@ foreach ($members as $id) {
 </style>
 
 <div class="section">
-    <h2>Student Stats</h2>
+    <h2>Student Statistics</h2>
 </div>
 
     <h3>Select a Student</h3>
