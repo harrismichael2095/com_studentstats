@@ -68,7 +68,7 @@ $present_percent = number_format($num_present/$num_rows*100, 2, '.', "");
 $absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
 ?>
 
-<h2> <? $user->name;?>   </h2>
+<h2> <?= $user->name; ?>   </h2>
 <p>
     <?php echo 'Student Attended ' .$num_present. ' of the ' .$num_rows. ' Meetings'; ?> 
 </p>
