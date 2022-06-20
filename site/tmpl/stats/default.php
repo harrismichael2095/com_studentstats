@@ -15,13 +15,15 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
-// get the userid that was selected
+// get the UserID of student selected from Stats Page
 $uri = Uri::getInstance();
 $id = $uri->getVar('id');
 Log::add($id);
 $user = JFactory::getUser($id); 
 
-// query to see which dates the student was present for
+
+
+// query to see which dates the student was Present
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
 $query->select('*');
@@ -40,7 +42,9 @@ foreach ($results as $row) {
     $present_rows .= '</tr>';
 }
 
-// query to see which dates the student was absent for
+
+
+// query to see which dates the student was absent 
 $query = $db->getQuery(true);
 $query->select('*');
 $query->from('#__attendance_reports');
@@ -58,15 +62,44 @@ foreach ($results as $row) {
     $absent_rows .= '</tr>';
 }
 
-// Stats Section 
-// More Stats forumals will go here as we see what Oroji wants.
-// Github Testing hello
-// Present percentage
+
+
+// query to see which dates the student was Late 
+$query = $db->getQuery(true);
+$query->select('*');
+$query->from('#__attendance_reports');
+$query->where('JSON_CONTAINS(late,' . $db->quote($id) .')');
+$db->setQuery((string) $query);
+$results = $db->loadAssocList();
+$num_rows += count($results);
+$num_late = count($results);
+$late_rows = '';
+foreach ($results as $row) {
+    //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
+    $late_rows .= '<tr>';
+    $late_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
+    $late_rows .= '<td>' . $row['date_created'] . '</td>';
+    $late_rows .= '</tr>';
+}
+
+
+
+//////////////////// Stats Section ///////////////////////////
+
+// Present percentage 
 $present_percent = number_format($num_present/$num_rows*100, 2, '.', "");
 
 // Absent percentage 
 $absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
+
+// Late percentage
+$late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 ?>
+
+
+
+<? /////////////  Web Page Display  //////////////////////////?>
+
 
 <h2> <?= $user->name; ?>   </h2>
 <p>
@@ -83,6 +116,16 @@ $absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
 <p>
 <strong>
     <?php echo 'Absent Percentage: ' .$absent_percent. '%';?>
+</strong>
+</p>
+
+<p>
+    <?php echo 'Student was Late to ' .$num_late. ' of the ' .$num_rows. ' Meetings'; ?> 
+</p>
+
+<p>
+<strong>
+    <?php echo 'Late Percentage: ' .$late_percent. '%';?>
 </strong>
 </p>
 <table class="table">
