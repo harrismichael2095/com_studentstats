@@ -73,13 +73,17 @@ $absent_percent = number_format($num_absent/$num_rows*100, 2, '.', "");
     <?php echo 'Student Attended ' .$num_present. ' of the ' .$num_rows. ' Meetings'; ?> 
 </p>
 <p>
+    <strong>
     <?php echo 'Present Percentage: ' .$present_percent. '%';?>
+    </strong>
 </p>
 <p>
     <?php echo 'Student Missed ' .$num_absent. ' of the ' .$num_rows. ' Meetings'; ?> 
 </p>
 <p>
+<strong>
     <?php echo 'Absent Percentage: ' .$absent_percent. '%';?>
+</strong>
 </p>
 <table class="table">
     <tr>
