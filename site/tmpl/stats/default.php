@@ -60,7 +60,7 @@ foreach ($results as $row) {
 
 // Stats Section 
 // More Stats forumals will go here as we see what Oroji wants.
-// Github Testing
+// Github Testing hello
 // Present percentage
 $present_percent = number_format($num_present/$num_rows*100, 2, '.', "");
 
