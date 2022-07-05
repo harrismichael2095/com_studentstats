@@ -13,3 +13,4 @@ class HtmlView extends BaseHtmlView {
     }
 
 }
+?>
