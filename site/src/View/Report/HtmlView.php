@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelHarris\Component\studentstats\Site\View\Stats;
+namespace MichaelHarris\Component\studentstats\Site\View\Report;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
