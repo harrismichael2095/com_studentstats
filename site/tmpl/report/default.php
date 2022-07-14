@@ -18,6 +18,20 @@ defined('_JEXEC') or die('Restricted Access');
 
 
 <?php
+
+
+
+$db = JFactory::getDbo();
+$query = $db->getQuery(true);
+$query->select('DISTINCT weekStart');
+$query->from('reports');
+$db->setQuery((string) $query);
+$results = $db->loadAssocList();
+$num_reportWeeks = count($results);
+
+
+
+
 $db = JFactory::getDbo();
 $groupId = 11;
 $access = new JAccess();
@@ -34,15 +48,13 @@ foreach ($members as $id) {
     $db->setQuery((string) $query);
     $results = $db->loadAssocList();
     $num_rows = count($results);
-    $query->select('*');
-    $query->from('reports');
-    $query->where('id!='.$id);
-    $results2 = $db->loadAssocList();
-    $missed_rows = count($results2);
+    $num_missedReports = abs($num_rows - $num_reportWeeks);
+    $report_percent = number_format($num_rows/$num_reportWeeks*100, 2, '.', "");
     $rows .= '<tr>';
     $rows .= '<td>' . $user->name . '</td>';
     $rows .= '<td>' . $num_rows . '</td>';
-    $rows .= '<td>' . $missed_rows . '</td>';
+    $rows .= '<td>' . $num_missedReports . '</td>';
+    $rows .= '<td>' . $report_percent . '</td>';
     $rows .= '</tr>';
 }
 ?>
@@ -65,4 +77,5 @@ foreach ($members as $id) {
     </tr>
     <?php echo $rows; ?>
 </table>
+
 
