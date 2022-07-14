@@ -111,29 +111,7 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
 
 
-
-
-
 <h2> <?= $user->name; ?>   </h2>
-
-<p> 
-    <strong>
-    <?php echo 'Attended ' .$num_present. ' Meetings'; ?> 
-    </strong>
-</p>
-
-<p> 
-    <strong>
-    <?php echo 'Missed ' .$num_absent. ' Meetings'; ?> 
-    </strong>
-</p>
-
-<p> 
-    <strong>
-    <?php echo 'Late to ' .$num_late. ' Meetings'; ?> 
-    </strong>
-</p>
-
 
 <table class="table" id="table">
     <tr class="table-success">
@@ -154,7 +132,7 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
 <table class="table" id="table">
     <tr>
-        <th>Present Records</th>
+        <th>Present Records: <?php echo ''.$num_present; ?> </th>
         <th>Date</th>
     </tr>
     <?php echo $present_rows; ?>
@@ -162,7 +140,7 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
     <table class="table" id="table">
     <tr>
-        <th>Absent Records</th>
+        <th>Absent Records: <?php echo ''.$num_absent; ?></th>
         <th>Date</th>
     </tr>
     <?php echo $absent_rows; ?>
@@ -171,8 +149,14 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
     <table class="table" id="table">
     <tr>
-        <th>Late Records</th>
+        <th>Late Records: <?php echo ''.$num_late; ?></th>
         <th>Date</th>
     </tr>
     <?php echo $late_rows; ?>
     </table>
+
+
+
+
+
+
