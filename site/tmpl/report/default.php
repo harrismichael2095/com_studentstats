@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 
 <?php
-
+ 
 
 
 $db = JFactory::getDbo();
@@ -36,6 +36,7 @@ $db = JFactory::getDbo();
 $groupId = 11;
 $access = new JAccess();
 $members = $access->getUsersByGroup($groupId);
+$num_students = count($members);
 $rows = '';
 $users = [];
 foreach ($members as $id) {
@@ -56,8 +57,25 @@ foreach ($members as $id) {
     $rows .= '<td>' . $num_missedReports . '</td>';
     $rows .= '<td>' . $report_percent . '</td>';
     $rows .= '</tr>';
+
+    // Used after loop to get the averages 
+    $submitted += $num_rows;
+    $missed += $num_missedReports;
+    $percentage += $report_percent;
+    
 }
+
+
+// Average submitted reports for students 
+$average_submitted = number_format($submitted/$num_students, 2, '.', "");
+
+// Average missed reports for students 
+$average_missed = number_format($missed/$num_students, 2, '.', "");
+
+// Average report percentage for students.
+$average_percent = number_format($percentage/$num_students, 2, '.', "");
 ?>
+
 
 <style>
     .table {
@@ -71,11 +89,15 @@ foreach ($members as $id) {
 <table class="table" id="table">
     <tr>
         <th>Name</th>
-        <th>Submitted Reports</th>
-        <th>Missed Reports</th>
+        <th class = "table-success">Submitted Reports</th>
+        <th class="table-danger">Missed Reports</th>
         <th>Percentage</th>
     </tr>
     <?php echo $rows; ?>
-</table>
+    <td><strong>Average</strong></td>
+    <td class = "table-success"> Submitted: <?php echo '' .$average_submitted;?> </td>
+    <td class = "table-danger"> Missed: <?php echo '' .$average_missed;?> </td>
+    <td> Percentage: <?php echo ' ' .$average_percent;?> </td>
+    </table>
 
 
