@@ -36,7 +36,7 @@ $num_present = count($results);
 $present_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
-    $present_rows .= '<tr>';
+    $present_rows .= '<tr class="table-success">';
     $present_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
     $present_rows .= '<td>' . $row['date_created'] . '</td>';
     $present_rows .= '</tr>';
@@ -56,7 +56,7 @@ $num_absent = count($results);
 $absent_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
-    $absent_rows .= '<tr>';
+    $absent_rows .= '<tr class="table-danger">';
     $absent_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
     $absent_rows .= '<td>' . $row['date_created'] . '</td>';
     $absent_rows .= '</tr>';
@@ -76,7 +76,7 @@ $num_late = count($results);
 $late_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
-    $late_rows .= '<tr>';
+    $late_rows .= '<tr class="table-warning">';
     $late_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
     $late_rows .= '<td>' . $row['date_created'] . '</td>';
     $late_rows .= '</tr>';
@@ -98,45 +98,65 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
 
 
-<? /////////////  Web Page Display  //////////////////////////?>
+<style>
+    .table {
+        background: #fff;
+        border-radius: 5px;
+    }
+</style>
+
+
+
+<? ////////////////  Web Page Display  //////////////////////////?>
+
 
 
 <h2> <?= $user->name; ?>   </h2>
-<p>
-    <?php echo 'Student Attended ' .$num_present. ' of the ' .$num_rows. ' Meetings'; ?> 
-</p>
-<p>
-    <strong>
-    <?php echo 'Present Percentage: ' .$present_percent. '%';?>
-    </strong>
-</p>
-<p>
-    <?php echo 'Student Missed ' .$num_absent. ' of the ' .$num_rows. ' Meetings'; ?> 
-</p>
-<p>
-<strong>
-    <?php echo 'Absent Percentage: ' .$absent_percent. '%';?>
-</strong>
-</p>
 
-<p>
-    <?php echo 'Student was Late to ' .$num_late. ' of the ' .$num_rows. ' Meetings'; ?> 
-</p>
+<table class="table" id="table">
+    <tr class="table-success">
+    <td> Present Percentage </td>
+    <td><?php echo$present_percent;?></td>
+    </tr>
+    <tr class="table-danger">
+    <td> Absent Percentage </td>
+    <td><?php echo$absent_percent;?></td>
+    </tr>
+    <tr class="table-warning">
+    <td> Late Percentage </td>
+    <td><?php echo$late_percent;?></td>
+    </tr>
+    </table>
 
-<p>
-<strong>
-    <?php echo 'Late Percentage: ' .$late_percent. '%';?>
-</strong>
-</p>
-<table class="table">
+
+
+<table class="table" id="table">
     <tr>
-        <th>Present Records</th>
+        <th>Present Records: <?php echo ''.$num_present; ?> </th>
         <th>Date</th>
     </tr>
     <?php echo $present_rows; ?>
+    </table>
+
+    <table class="table" id="table">
     <tr>
-        <th>Absent Records</th>
+        <th>Absent Records: <?php echo ''.$num_absent; ?></th>
         <th>Date</th>
     </tr>
     <?php echo $absent_rows; ?>
-</table>
+    </table>
+
+
+    <table class="table" id="table">
+    <tr>
+        <th>Late Records: <?php echo ''.$num_late; ?></th>
+        <th>Date</th>
+    </tr>
+    <?php echo $late_rows; ?>
+    </table>
+
+
+
+
+
+
