@@ -37,8 +37,8 @@ $present_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
     $present_rows .= '<tr class="table-success">';
-    $present_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
-    $present_rows .= '<td>' . $row['date_created'] . '</td>';
+    $present_rows .= '<td>' . "Attendance Record: " . $row['id'] .'</td>';
+    $present_rows .= '<td>' . date_create($row['date_created'])->format('n/j/Y') . '</td>';
     $present_rows .= '</tr>';
 }
 
@@ -57,8 +57,8 @@ $absent_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
     $absent_rows .= '<tr class="table-danger">';
-    $absent_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
-    $absent_rows .= '<td>' . $row['date_created'] . '</td>';
+    $absent_rows .= '<td>' . "Attendance Record: " . $row['id'] .'</td>';
+    $absent_rows .= '<td>' . date_create($row['date_created'])->format('n/j/Y') . '</td>';
     $absent_rows .= '</tr>';
 }
 
@@ -77,8 +77,8 @@ $late_rows = '';
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
     $late_rows .= '<tr class="table-warning">';
-    $late_rows .= '<td>' . "Attendance Record : " . $row['id'] .'</td>';
-    $late_rows .= '<td>' . $row['date_created'] . '</td>';
+    $late_rows .= '<td>' . "Attendance Record: " . $row['id'] .'</td>';
+    $late_rows .= '<td>' . date_create($row['date_created'])->format('n/j/Y') . '</td>';
     $late_rows .= '</tr>';
 }
 
@@ -116,15 +116,15 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 <table class="table" id="table">
     <tr class="table-success">
     <td> Present Percentage </td>
-    <td><?php echo$present_percent;?></td>
+    <td><?php echo$present_percent;?>%</td>
     </tr>
     <tr class="table-danger">
     <td> Absent Percentage </td>
-    <td><?php echo$absent_percent;?></td>
+    <td><?php echo$absent_percent;?>%</td>
     </tr>
     <tr class="table-warning">
     <td> Late Percentage </td>
-    <td><?php echo$late_percent;?></td>
+    <td><?php echo$late_percent;?>%</td>
     </tr>
     </table>
 

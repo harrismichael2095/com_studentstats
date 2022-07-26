@@ -35,7 +35,7 @@ foreach ($members as $id) {
     $href = JURI::current() . '?view=stats&id=' . $user->id;
     $rows .= '<tr>';
     $rows .= '<td>' . $user->name . '</td>';
-    $rows .= '<td>' . $user->lastvisitDate . '</td>';
+    $rows .= '<td>' . date_create($user->lastvisitDate)->format('n/j/Y') . '</td>';
     $rows .= '<td>' . '<a class="btn btn-primary btn-sm" href="'. $href .'">select </a> '. '</td>';
     $rows .= '</tr>';
 }
@@ -45,7 +45,6 @@ foreach ($members as $id) {
 <style>
     .section {
         margin-bottom: 20px;
-        padding: 10px;
     }
 </style>
 
@@ -55,7 +54,7 @@ foreach ($members as $id) {
 
     <h3>Select a Student</h3>
     <table class="table"> 
-        <tr>
+    <tr>
         <th>Name</th>
         <th>Last Login</th>
         <th>Select</th>

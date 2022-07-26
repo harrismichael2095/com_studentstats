@@ -118,16 +118,15 @@ $average_late_percentage = number_format($late_count_percent/$num_students, 2, '
 
 
 <style>
+    #HASH {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .table {
         background: #fff;
         border-radius: 5px;
     }
-
-    #HASH {
-  display: flex;
-  justify-content: space-between;
-}
-
 </style>
 
 <div id="HASH">
