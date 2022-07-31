@@ -73,14 +73,29 @@ foreach ($members as $id) {
     $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
     $rows .= '<tr>';
-    $rows .= '<td>' . $user->name . '</td>';
-    $rows .= '<td>' . $num_present. '</td>';
-    $rows .= '<td>' . $num_absent.  '</td>';
-    $rows .= '<td>' . $num_late.    '</td>';
-    $rows .= '<td>' . $present_percent. '%</td>';
-    $rows .= '<td>' . $absent_percent.  '%</td>';
-    $rows .= '<td>' . $late_percent.    '%</td>';
-    $rows .= '</tr>';
+    
+    if($present_percent<60.00)
+        {   $rows .= '<td  class = "table-danger">' . $user->name . '</td>';
+            $rows .= '<td  class = "table-danger">' . $num_present. '</td>';
+            $rows .= '<td  class = "table-danger">' . $num_absent.  '</td>';
+            $rows .= '<td  class = "table-danger">' . $num_late.    '</td>';
+            $rows .= '<td  class = "table-danger">' . $present_percent. '%</td>';
+            $rows .= '<td  class = "table-danger">' . $absent_percent.  '%</td>';
+            $rows .= '<td  class = "table-danger">' . $late_percent.    '%</td>';
+            $rows .= '</tr>';  
+        }
+        else
+        {
+            $rows .= '<td class = "table-success">' . $user->name . '</td>';
+            $rows .= '<td class = "table-success">' . $num_present. '</td>';
+            $rows .= '<td class = "table-success">' . $num_absent.  '</td>';
+            $rows .= '<td class = "table-success">' . $num_late.    '</td>';
+            $rows .= '<td class = "table-success">' . $present_percent. '%</td>';
+            $rows .= '<td class = "table-success">' . $absent_percent.  '%</td>';
+            $rows .= '<td class = "table-success">' . $late_percent.    '%</td>';
+            
+        }
+        $rows .= '</tr>';
 
     // Used after loop to get the averages 
     $present += $num_present;
