@@ -29,7 +29,9 @@ $db->setQuery((string) $query);
 $results = $db->loadAssocList();
 $num_reportWeeks = count($results);
 
-
+// Prevents divide by 0 error when there are no report weeks
+if ($num_reportWeeks == 0)
+    $num_reportWeeks = 1;
 
 
 $db = JFactory::getDbo();
@@ -39,6 +41,11 @@ $members = $access->getUsersByGroup($groupId);
 $num_students = count($members);
 $rows = '';
 $users = [];
+
+// Prevents divide by 0 error when there are no students
+if ($num_students == 0)
+    $num_students = 1;
+
 foreach ($members as $id) {
     $user = JFactory::getUser($id);
     array_push($users, $user);

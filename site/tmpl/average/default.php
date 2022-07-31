@@ -25,7 +25,9 @@ $db->setQuery((string) $query);
 $results = $db->loadAssocList();
 $num_rows = count($results);
 
- 
+// Prevents divide by 0 error when there are no reports
+if ($num_rows == 0)
+    $num_rows = 1;
 
 
 
@@ -39,6 +41,7 @@ foreach ($members as $id) {
     $db = JFactory::getDbo();
     $user = JFactory::getUser($id);
     array_push($users, $user);
+
     $query = $db->getQuery(true);
     $query->select('*');
     $query->from('#__attendance_reports');
@@ -166,4 +169,4 @@ $average_late_percentage = number_format($late_count_percent/$num_students, 2, '
     <td class = "table-success"> <strong><?php echo '' .$average_present_percentage.'%'?> </td></strong>
     <td class = "table-danger">  <strong><?php echo '' .$average_absent_percentage.'%'?> </td></strong>
     <td class = "table-warning"> <strong><?php echo '' .$average_late_percentage.'%'?> </td></strong>
-    </table>
+</table>

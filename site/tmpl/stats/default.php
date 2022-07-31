@@ -32,8 +32,14 @@ $query->where('JSON_CONTAINS(present,' . $db->quote($id) .')');
 $db->setQuery((string) $query);
 $results = $db->loadAssocList();
 $num_rows = count($results);
+
+// Prevents divide by 0 error when there are no reports
+if ($num_rows == 0)
+    $num_rows = 1;
+
 $num_present = count($results);
 $present_rows = '';
+
 foreach ($results as $row) {
     //echo "<p>" . $row['id'] . ", " . $row['date_created'] . "<br></p>";
     $present_rows .= '<tr class="table-success">';
@@ -41,7 +47,6 @@ foreach ($results as $row) {
     $present_rows .= '<td>' . date_create($row['date_created'])->format('n/j/Y') . '</td>';
     $present_rows .= '</tr>';
 }
-
 
 
 // query to see which dates the student was absent 
