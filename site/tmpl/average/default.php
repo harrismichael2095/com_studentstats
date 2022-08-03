@@ -30,8 +30,23 @@ if ($num_rows == 0)
     $num_rows = 1;
 
 
+//Returns all the ids belonging to the group name input
+function getGroupId($groupName){
+    $db = JFactory::getDBO();
+    $db->setQuery($db->getQuery(true)
+        ->select('*')
+        ->from("#__usergroups")
+    );
+    $groups = $db->loadRowList();
+    foreach ($groups as $group) {
+        if ($group[4] == $groupName) // $group[4] holds the name of current group
+            return $group[0]; // $group[0] holds group ID
+    }
+    return false;
+}
 
-$groupId = 11;
+
+$groupId = getGroupId('Student');
 $access = new JAccess();
 $members = $access->getUsersByGroup($groupId);
 $num_students = count($members);
