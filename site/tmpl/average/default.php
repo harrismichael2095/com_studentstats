@@ -17,13 +17,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 <?php
 
-$db = JFactory::getDbo();
-$query = $db->getQuery(true);
-$query->select('*');
-$query->from('#__attendance_reports');
-$db->setQuery((string) $query);
-$results = $db->loadAssocList();
-$num_rows = count($results);
+
 
 // Prevents divide by 0 error when there are no reports
 if ($num_rows == 0)
@@ -45,7 +39,6 @@ function getGroupId($groupName){
     return false;
 }
 
-
 $groupId = getGroupId('Student');
 $access = new JAccess();
 $members = $access->getUsersByGroup($groupId);
@@ -56,13 +49,13 @@ foreach ($members as $id) {
     $db = JFactory::getDbo();
     $user = JFactory::getUser($id);
     array_push($users, $user);
-
     $query = $db->getQuery(true);
     $query->select('*');
     $query->from('#__attendance_reports');
     $query->where('JSON_CONTAINS(present,' . $db->quote($id) .')');
     $db->setQuery((string) $query);
     $results = $db->loadAssocList();
+    $num_rows = count($results);
     $num_present = count($results);
 
     $query = $db->getQuery(true);
@@ -71,6 +64,7 @@ foreach ($members as $id) {
     $query->where('JSON_CONTAINS(absent,' . $db->quote($id) .')');
     $db->setQuery((string) $query);
     $results = $db->loadAssocList();
+    $num_rows += count($results);
     $num_absent = count($results);
 
     $query = $db->getQuery(true);
@@ -79,6 +73,7 @@ foreach ($members as $id) {
     $query->where('JSON_CONTAINS(late,' . $db->quote($id) .')');
     $db->setQuery((string) $query);
     $results = $db->loadAssocList();
+    $num_rows += count($results);
     $num_late = count($results);
 
     // Present percentage 
@@ -92,7 +87,7 @@ foreach ($members as $id) {
 
     $rows .= '<tr>';
     
-     if($present_percent<60.00)
+    if($present_percent<60.00)
         {   $rows .= '<td class = "table-danger">' . $user->name . '</td>';
             $rows .= '<td>' . $num_present. '</td>';
             $rows .= '<td>' . $num_absent.  '</td>';
@@ -115,6 +110,7 @@ foreach ($members as $id) {
             
         }
         $rows .= '</tr>';
+   
 
     // Used after loop to get the averages 
     $present += $num_present;
@@ -148,6 +144,8 @@ $average_absent_percentage = number_format($absent_count_percent/$num_students, 
 
 // Average late percentage
 $average_late_percentage = number_format($late_count_percent/$num_students, 2, '.', "");
+
+
 
 if($average_present_percentage<60.00)
 {
@@ -192,12 +190,12 @@ else
 <table class="table" id="table">
     <tr>
         <th>Name</th>
-        <th class = "table-success"># of times present</th>
-        <th class=  "table-danger"> # of times absent</th>
-        <th class=  "table-warning"># of times late</th>
+        <th class = "table-success">Number of times present</th>
+        <th class=  "table-danger"> Number of times absent</th>
+        <th class=  "table-warning">Number of times late</th>
         <th class = "table-success">Present Percentage</th>
         <th class=  "table-danger"> Absent  Percentage</th>
         <th class=  "table-warning">Late Percentage</th>
     </tr>
     <?php echo $rows; ?>
-</table>
+   </table>
