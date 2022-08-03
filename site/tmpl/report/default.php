@@ -73,12 +73,29 @@ foreach ($members as $id) {
     $num_rows = count($results);
     $num_missedReports = abs($num_rows - $num_reportWeeks);
     $report_percent = number_format($num_rows/$num_reportWeeks*100, 2, '.', "");
+    
+    if($report_percent<60.00)
+    {
     $rows .= '<tr>';
-    $rows .= '<td>' . $user->name . '</td>';
+    $rows .= '<td class = "table-danger">' . $user->name . '</td>';
     $rows .= '<td>' . $num_rows . '</td>';
     $rows .= '<td>' . $num_missedReports . '</td>';
-    $rows .= '<td>' . $report_percent . '</td>';
+    $rows .= '<td class = "table-danger">' . $report_percent . '%</td>';
     $rows .= '</tr>';
+    }
+
+    else
+    {
+
+        $rows .= '<tr>';
+        $rows .= '<td>' . $user->name . '</td>';
+        $rows .= '<td>' . $num_rows . '</td>';
+        $rows .= '<td>' . $num_missedReports . '</td>';
+        $rows .= '<td>' . $report_percent . '%</td>';
+        $rows .= '</tr>';
+
+
+    }
 
     // Used after loop to get the averages 
     $submitted += $num_rows;
@@ -96,6 +113,23 @@ $average_missed = number_format($missed/$num_students, 2, '.', "");
 
 // Average report percentage for students.
 $average_percent = number_format($percentage/$num_students, 2, '.', "");
+
+if($average_percent<60.00)
+{
+    $rows .= '<td  class = "table-danger"><strong>Average</strong></td>';
+    $rows .= '<td  class = "table-danger"> Submitted ' .$average_submitted . '</td>';
+    $rows .= '<td  class = "table-danger"> Missed: ' .$average_missed . '</td>';
+    $rows .= '<td  class = "table-danger"> Percentage: ' . $average_percent. '</td>';
+
+}
+else
+{
+    $rows .= '<td  class = "table-success"><strong>Average</strong></td>';
+    $rows .= '<td  class = "table-success"> Submitted ' .$average_submitted . '</td>';
+    $rows .= '<td  class = "table-success"> Missed: ' .$average_missed . '</td>';
+    $rows .= '<td  class = "table-success"> Percentage: ' . $average_percent. '</td>';
+
+}
 ?>
 
 
@@ -116,10 +150,6 @@ $average_percent = number_format($percentage/$num_students, 2, '.', "");
         <th>Percentage</th>
     </tr>
     <?php echo $rows; ?>
-    <td><strong>Average</strong></td>
-    <td class = "table-success"> Submitted: <?php echo '' .$average_submitted;?> </td>
-    <td class = "table-danger"> Missed: <?php echo '' .$average_missed;?> </td>
-    <td> Percentage: <?php echo ' ' .$average_percent;?> </td>
     </table>
 
 
