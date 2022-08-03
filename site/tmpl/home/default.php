@@ -61,13 +61,23 @@ foreach ($members as $id) {
     .section {
         margin-bottom: 20px;
     }
+
+    #HASH {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table {
+        background: #fff;
+        border-radius: 5px;
+    }
 </style>
 
-<div class="section">
-    <h2>Student Statistics</h2>
+<div id="HASH">
+<h2>Select a Student</h2>
+<a class="btn btn-primary" href="<?php echo JURI::current(); ?>?view=average">Back</a>
 </div>
 
-    <h3>Select a Student</h3>
     <table class="table"> 
     <tr>
         <th>Name</th>
@@ -77,6 +87,3 @@ foreach ($members as $id) {
       <?php echo $rows; ?>
 </table>
     
-
-
-
