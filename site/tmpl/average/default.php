@@ -92,25 +92,26 @@ foreach ($members as $id) {
 
     $rows .= '<tr>';
     
-    if($present_percent<60.00)
-        {   $rows .= '<td  class = "table-danger">' . $user->name . '</td>';
-            $rows .= '<td  class = "table-danger">' . $num_present. '</td>';
-            $rows .= '<td  class = "table-danger">' . $num_absent.  '</td>';
-            $rows .= '<td  class = "table-danger">' . $num_late.    '</td>';
+     if($present_percent<60.00)
+        {   $rows .= '<td class = "table-danger">' . $user->name . '</td>';
+            $rows .= '<td>' . $num_present. '</td>';
+            $rows .= '<td>' . $num_absent.  '</td>';
+            $rows .= '<td>' . $num_late.    '</td>';
             $rows .= '<td  class = "table-danger">' . $present_percent. '%</td>';
-            $rows .= '<td  class = "table-danger">' . $absent_percent.  '%</td>';
-            $rows .= '<td  class = "table-danger">' . $late_percent.    '%</td>';
+            $rows .= '<td>' . $absent_percent.  '%</td>';
+            $rows .= '<td>' . $late_percent.    '%</td>';
             $rows .= '</tr>';  
         }
         else
         {
-            $rows .= '<td class = "table-success">' . $user->name . '</td>';
-            $rows .= '<td class = "table-success">' . $num_present. '</td>';
-            $rows .= '<td class = "table-success">' . $num_absent.  '</td>';
-            $rows .= '<td class = "table-success">' . $num_late.    '</td>';
-            $rows .= '<td class = "table-success">' . $present_percent. '%</td>';
-            $rows .= '<td class = "table-success">' . $absent_percent.  '%</td>';
-            $rows .= '<td class = "table-success">' . $late_percent.    '%</td>';
+            $rows .= '<td>' . $user->name . '</td>';
+            $rows .= '<td>' . $num_present. '</td>';
+            $rows .= '<td>' . $num_absent.  '</td>';
+            $rows .= '<td>' . $num_late.    '</td>';
+            $rows .= '<td>' . $present_percent. '%</td>';
+            $rows .= '<td>' . $absent_percent.  '%</td>';
+            $rows .= '<td>' . $late_percent.    '%</td>';
+            $rows .= '</tr>'; 
             
         }
         $rows .= '</tr>';
@@ -147,6 +148,28 @@ $average_absent_percentage = number_format($absent_count_percent/$num_students, 
 
 // Average late percentage
 $average_late_percentage = number_format($late_count_percent/$num_students, 2, '.', "");
+
+if($average_present_percentage<60.00)
+{
+    $rows .= '<td  class = "table-danger"><strong>Average</strong></td>';
+    $rows .= '<td  class = "table-danger">' .$average_present. '</td>';
+    $rows .= '<td  class = "table-danger">' .$average_absent. '</td>';
+    $rows .= '<td  class = "table-danger">' .$average_late.'</td>';
+    $rows .= '<td  class = "table-danger">' .$average_present_percentage.'%</td>';
+    $rows .= '<td  class = "table-danger">' .$average_absent_percentage.'% </td>';
+    $rows .= '<td  class = "table-danger">' .$average_late_percentage.'%</td>';
+
+}
+else
+{
+    $rows .= '<td  class = "table-success"><strong>Average</strong></td>';
+    $rows .= '<td  class = "table-success">' .$average_present. '</td>';
+    $rows .= '<td  class = "table-success">' .$average_absent. '</td>';
+    $rows .= '<td  class = "table-success">' .$average_late.'</td>';
+    $rows .= '<td  class = "table-success">' .$average_present_percentage.'%</td>';
+    $rows .= '<td  class = "table-success">' .$average_absent_percentage.'% </td>';
+    $rows .= '<td  class = "table-success">' .$average_late_percentage.'%</td>';
+}
 ?>
 
 
@@ -177,11 +200,4 @@ $average_late_percentage = number_format($late_count_percent/$num_students, 2, '
         <th class=  "table-warning">Late Percentage</th>
     </tr>
     <?php echo $rows; ?>
-    <td><strong>Average</strong></td>
-    <td class = "table-success"> <strong><?php echo '' .$average_present;?> </td></strong>
-    <td class = "table-danger">  <strong><?php echo '' .$average_absent;?> </td></strong>
-    <td class = "table-warning"> <strong><?php echo '' .$average_late;?> </td></strong>
-    <td class = "table-success"> <strong><?php echo '' .$average_present_percentage.'%'?> </td></strong>
-    <td class = "table-danger">  <strong><?php echo '' .$average_absent_percentage.'%'?> </td></strong>
-    <td class = "table-warning"> <strong><?php echo '' .$average_late_percentage.'%'?> </td></strong>
 </table>
