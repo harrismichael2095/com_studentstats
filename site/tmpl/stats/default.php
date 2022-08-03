@@ -104,6 +104,16 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 
 
 <style>
+
+.section {
+        margin-bottom: 20px;
+    }
+
+    #HASH {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .table {
         background: #fff;
         border-radius: 5px;
@@ -115,8 +125,10 @@ $late_percent = number_format($num_late/$num_rows*100, 2, '.', "");
 <? ////////////////  Web Page Display  //////////////////////////?>
 
 
-
+<div id="HASH">
 <h2> <?= $user->name; ?>   </h2>
+<a class="btn btn-primary" href="<?php echo JURI::current(); ?>?view=home">Back</a>
+</div>
 
 <table class="table" id="table">
     <tr class="table-success">
